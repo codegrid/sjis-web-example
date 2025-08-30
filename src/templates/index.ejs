@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="shift_jis">
+  <title>Shift-JIS Web Example</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Shift-JIS Web サンプル</h1>
+
+  <h2>API (Shift-JIS) - fetch + TextDecoder</h2>
+  <div id="sjis-data-fetch">
+    <p>ロード中...</p>
+  </div>
+
+  <h2>API (Shift-JIS) - XMLHttpRequest</h2>
+  <div id="sjis-data-xhr">
+    <p>ロード中...</p>
+  </div>
+
+  <h2>API (Shift-JIS) - axios</h2>
+  <div id="sjis-data-axios">
+    <p>ロード中...</p>
+  </div>
+
+  <h2>API (UTF-8) - fetch</h2>
+  <div id="utf8-data">
+    <p>ロード中...</p>
+  </div>
+
+  <script src="js/vendor/axios.min.js"></script>
+  <script src="js/main.js" charset="utf-8"></script>
+</body>
+</html>
