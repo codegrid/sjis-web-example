@@ -44,9 +44,19 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
                 api_type = query.get('api', ['users-utf8'])[0]
 
                 if api_type == 'users-sjis':
-                    # Shift-JISでレスポンス
+                    # Shift-JISでレスポンス（適切なヘッダー付き）
                     self.send_response(200)
                     self.send_header('Content-type', 'application/json; charset=Shift_JIS')
+                    self.send_header('Access-Control-Allow-Origin', '*') # CORS
+                    self.end_headers()
+                    
+                    json_utf8 = json.dumps(users, ensure_ascii=False)
+                    json_sjis = json_utf8.encode('cp932')
+                    self.wfile.write(json_sjis)
+                elif api_type == 'users-sjis-no-header':
+                    # Shift-JISでレスポンス（不適切なヘッダー - overrideMimeTypeテスト用）
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')  # charsetなし
                     self.send_header('Access-Control-Allow-Origin', '*') # CORS
                     self.end_headers()
                     

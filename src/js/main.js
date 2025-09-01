@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(users => render('sjis-data-fetch', createTable(users)))
     .catch(error => renderError('sjis-data-fetch', error));
 
-  // --- 2. XMLHttpRequest ---
+  // --- 2. XMLHttpRequest (without overrideMimeType) ---
   const xhr = new XMLHttpRequest();
   xhr.open('GET', '/api?api=users-sjis');
   xhr.onload = () => {
@@ -75,6 +75,43 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   xhr.onerror = () => renderError('sjis-data-xhr', 'Request error');
   xhr.send();
+
+  // --- 2b. XMLHttpRequest (without overrideMimeType, no charset header) ---
+  const xhr2 = new XMLHttpRequest();
+  xhr2.open('GET', '/api?api=users-sjis-no-header');
+  xhr2.onload = () => {
+    if (xhr2.status >= 200 && xhr2.status < 300) {
+      try {
+        const users = JSON.parse(xhr2.responseText);
+        render('sjis-data-xhr-no-override', createTable(users));
+      } catch (e) {
+        renderError('sjis-data-xhr-no-override', e);
+      }
+    } else {
+      renderError('sjis-data-xhr-no-override', `Request failed: ${xhr2.status}`);
+    }
+  };
+  xhr2.onerror = () => renderError('sjis-data-xhr-no-override', 'Request error');
+  xhr2.send();
+
+  // --- 2c. XMLHttpRequest (with overrideMimeType) ---
+  const xhr3 = new XMLHttpRequest();
+  xhr3.open('GET', '/api?api=users-sjis-no-header');
+  xhr3.overrideMimeType('text/plain; charset=Shift_JIS');
+  xhr3.onload = () => {
+    if (xhr3.status >= 200 && xhr3.status < 300) {
+      try {
+        const users = JSON.parse(xhr3.responseText);
+        render('sjis-data-xhr-override', createTable(users));
+      } catch (e) {
+        renderError('sjis-data-xhr-override', e);
+      }
+    } else {
+      renderError('sjis-data-xhr-override', `Request failed: ${xhr3.status}`);
+    }
+  };
+  xhr3.onerror = () => renderError('sjis-data-xhr-override', 'Request error');
+  xhr3.send();
 
   // --- 3. axios ---
   // axiosはグローバルに読み込まれている前提

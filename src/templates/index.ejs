@@ -9,21 +9,37 @@
   <h1>Shift-JIS Web サンプル</h1>
 
   <h2>API (Shift-JIS) - fetch + TextDecoder</h2>
+  <p><small>API: Shift-JISレスポンス + 適切なcharsetヘッダー<br>フロント: fetchでarrayBuffer取得 → TextDecoderで明示的にShift-JISデコード</small></p>
   <div id="sjis-data-fetch">
     <p>ロード中...</p>
   </div>
 
-  <h2>API (Shift-JIS) - XMLHttpRequest</h2>
+  <h2>API (Shift-JIS) - XMLHttpRequest (without overrideMimeType)</h2>
+  <p><small>API: Shift-JISレスポンス + 適切なcharsetヘッダー<br>フロント: XMLHttpRequest、ブラウザによる自動デコードに依存</small></p>
   <div id="sjis-data-xhr">
     <p>ロード中...</p>
   </div>
 
+  <h2>API (Shift-JIS) - XMLHttpRequest (without overrideMimeType, no charset header)</h2>
+  <p><small>API: Shift-JISレスポンス + charsetヘッダーなし<br>フロント: XMLHttpRequest、特別な処理なし → 文字化けのはず</small></p>
+  <div id="sjis-data-xhr-no-override">
+    <p>ロード中...</p>
+  </div>
+
+  <h2>API (Shift-JIS) - XMLHttpRequest (with overrideMimeType)</h2>
+  <p><small>API: Shift-JISレスポンス + charsetヘッダーなし<br>フロント: XMLHttpRequest + overrideMimeType()で明示的にcharset指定</small></p>
+  <div id="sjis-data-xhr-override">
+    <p>ロード中...</p>
+  </div>
+
   <h2>API (Shift-JIS) - axios</h2>
+  <p><small>API: Shift-JISレスポンス + 適切なcharsetヘッダー<br>フロント: axios、ブラウザによる自動デコードに依存</small></p>
   <div id="sjis-data-axios">
     <p>ロード中...</p>
   </div>
 
   <h2>API (UTF-8) - fetch</h2>
+  <p><small>API: UTF-8レスポンス + UTF-8ヘッダー<br>フロント: fetch + response.json()、通常の処理</small></p>
   <div id="utf8-data">
     <p>ロード中...</p>
   </div>
